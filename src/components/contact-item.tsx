@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.li`
@@ -46,7 +46,7 @@ const Checkbox = styled.div`
   margin-left: auto;
 `;
 
-const Thic = styled.div`
+const Tick = styled.div`
   width: 15px;
   height: 5px;
   border-bottom: 3px solid #7dc436;
@@ -56,14 +56,28 @@ const Thic = styled.div`
 `;
 
 export const ContactItem: React.FC<{
+  id: number;
   firstName: string;
   lastName: string;
   email: string;
   avatarUrl?: string;
   isChecked?: boolean;
-}> = ({ isChecked, firstName, lastName, email, avatarUrl }) => {
+  setSelectedIDs: any;
+}> = ({ id, firstName, lastName, email, avatarUrl, setSelectedIDs }) => {
+  const [isSelected, setSelected] = useState(false);
+
   return (
-    <Wrapper>
+    <Wrapper
+      onClick={() => {
+        setSelected(!isSelected);
+
+        if (!isSelected) {
+          setSelectedIDs((prevState: number[]) => [...prevState, id]);
+        } else {
+          setSelectedIDs((prevState: number[]) => prevState.filter((e) => e !== id));
+        }
+      }}
+    >
       <Avatar>
         {avatarUrl ? (
           <>
@@ -82,7 +96,7 @@ export const ContactItem: React.FC<{
         </Name>
         <Email>{email}</Email>
       </div>
-      <Checkbox>{isChecked && <Thic />}</Checkbox>
+      <Checkbox>{isSelected && <Tick />}</Checkbox>
     </Wrapper>
   );
 };

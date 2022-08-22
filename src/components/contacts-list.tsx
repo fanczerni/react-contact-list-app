@@ -16,6 +16,7 @@ const List = styled.ul`
 export const ContactsList = () => {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedIDs, setSelectedIDs] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,6 +40,10 @@ export const ContactsList = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    selectedIDs.length > 0 && console.log(selectedIDs);
+  }, [selectedIDs]);
+
   return (
     <Wrapper>
       {loading && <LoadingScreen />}
@@ -54,12 +59,14 @@ export const ContactsList = () => {
               avatar?: string;
             }) => (
               <ContactItem
+                id={contact.id}
                 key={contact.id}
                 isChecked={true}
                 firstName={contact.first_name}
                 lastName={contact.last_name}
                 email={contact.email}
                 avatarUrl={contact.avatar}
+                setSelectedIDs={setSelectedIDs}
               />
             ),
           )}
