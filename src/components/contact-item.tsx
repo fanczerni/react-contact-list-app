@@ -23,6 +23,7 @@ const Avatar = styled.div`
   background-color: rgba(0, 0, 0, 0.1);
   color: rgba(0, 0, 0, 0.7);
   margin-right: 20px;
+  overflow: hidden;
 `;
 
 const Name = styled.div`
@@ -54,13 +55,32 @@ const Thic = styled.div`
   margin-bottom: 2px;
 `;
 
-export const ContactItem: React.FC<{ isChecked?: boolean }> = ({ isChecked }) => {
+export const ContactItem: React.FC<{
+  firstName: string;
+  lastName: string;
+  email: string;
+  avatarUrl?: string;
+  isChecked?: boolean;
+}> = ({ isChecked, firstName, lastName, email, avatarUrl }) => {
   return (
     <Wrapper>
-      <Avatar>MŻ</Avatar>
+      <Avatar>
+        {avatarUrl ? (
+          <>
+            <img src={avatarUrl} />
+          </>
+        ) : (
+          <>
+            {firstName.charAt(0)}
+            {lastName.charAt(0)}
+          </>
+        )}
+      </Avatar>
       <div>
-        <Name>Michał Żurawski</Name>
-        <Email>test@test.com</Email>
+        <Name>
+          {firstName} {lastName}
+        </Name>
+        <Email>{email}</Email>
       </div>
       <Checkbox>{isChecked && <Thic />}</Checkbox>
     </Wrapper>
