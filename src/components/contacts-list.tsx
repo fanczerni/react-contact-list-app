@@ -24,6 +24,9 @@ export const ContactsList = () => {
         const { data: response } = await axios.get(
           'https://teacode-recruitment-challenge.s3.eu-central-1.amazonaws.com/users.json',
         );
+        response.sort((a: { last_name: string }, b: { last_name: string }) =>
+          a.last_name.localeCompare(b.last_name),
+        );
         setContacts(response);
       } catch (error) {
         if (error instanceof Error) {
