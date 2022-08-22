@@ -5,8 +5,6 @@ import { Searchbar } from './searchbar';
 import axios from 'axios';
 import { LoadingScreen } from './loading-screen';
 
-const Wrapper = styled.div``;
-
 const List = styled.ul`
   list-style: none;
   margin: 0;
@@ -17,6 +15,7 @@ export const ContactsList = () => {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedIDs, setSelectedIDs] = useState([]);
+  const [inputText, setInputText] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,13 +43,21 @@ export const ContactsList = () => {
     selectedIDs.length > 0 && console.log(selectedIDs);
   }, [selectedIDs]);
 
+  const filteredData = contacts.filter((el: any) => {
+    if (inputText === '') {
+      return el;
+    } else {
+      return (el.first_name + ' ' + el.last_name).toLowerCase().includes(inputText);
+    }
+  });
+
   return (
-    <Wrapper>
+    <div>
       {loading && <LoadingScreen />}
-      <Searchbar />
+      <Searchbar setInputText={setInputText} />
       <List>
-        {contacts &&
-          contacts.map(
+        {filteredData &&
+          filteredData.map(
             (contact: {
               id: number;
               first_name: string;
@@ -61,16 +68,16 @@ export const ContactsList = () => {
               <ContactItem
                 id={contact.id}
                 key={contact.id}
-                isChecked={true}
                 firstName={contact.first_name}
                 lastName={contact.last_name}
                 email={contact.email}
                 avatarUrl={contact.avatar}
+                selectedIDs={selectedIDs}
                 setSelectedIDs={setSelectedIDs}
               />
             ),
           )}
       </List>
-    </Wrapper>
+    </div>
   );
 };

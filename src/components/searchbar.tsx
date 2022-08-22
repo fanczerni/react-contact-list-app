@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { MagnifierIcon } from './magnifier-icon';
 
@@ -23,11 +23,21 @@ const Input = styled.input`
   }
 `;
 
-export const Searchbar = () => {
+export const Searchbar: React.FC<{ setInputText: any }> = ({ setInputText }) => {
+  const inputHandler = (e: any) => {
+    const lowerCase = e.target.value.toLowerCase();
+    setInputText(lowerCase);
+  };
+
   return (
     <Wrapper>
       <MagnifierIcon />
-      <Input type='search' id='site-search' name='q' placeholder='i.e. Michał Żurawski' />
+      <Input
+        type='search'
+        name='contacts-search'
+        placeholder='i.e. Michał Żurawski'
+        onChange={inputHandler}
+      />
     </Wrapper>
   );
 };

@@ -62,9 +62,10 @@ export const ContactItem: React.FC<{
   email: string;
   avatarUrl?: string;
   isChecked?: boolean;
+  selectedIDs: number[];
   setSelectedIDs: any;
-}> = ({ id, firstName, lastName, email, avatarUrl, setSelectedIDs }) => {
-  const [isSelected, setSelected] = useState(false);
+}> = ({ id, firstName, lastName, email, avatarUrl, selectedIDs, setSelectedIDs }) => {
+  const [isSelected, setSelected] = useState(false || selectedIDs.includes(id));
 
   return (
     <Wrapper
